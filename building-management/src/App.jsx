@@ -618,7 +618,7 @@ const Apartments = ({ navigate, showToast, user, userData }) => {
   while (paginated.length < itemsPerPage) {
     paginated.push({
       id: `placeholder-${paginated.length}`,
-      image: 'https://placehold.co/400x300?text=No+Apartment',
+      image: 'https://i.ibb.co.com/23y6dKDp/Gemini-Generated-Image-g4cxa2g4cxa2g4cx.png',
       block: 'B',
       apartmentNo: '6',
       rent: '100000',
@@ -920,7 +920,7 @@ const MakePayment = ({ user, userData, showToast }) => {
   const handlePay = async (e) => {
     e.preventDefault();
     setProcessing(true);
-    // Simulate API call
+   
     setTimeout(async () => {
       try {
         await addDoc(collection(db, getCollectionPath('payments')), {
@@ -1103,7 +1103,7 @@ const AdminStats = () => {
                     <p className="text-2xl font-bold text-purple-900">{stats.members}</p>
                 </div>
             </div>
-            {/* Simple Pie Chart Representation */}
+            {/* Simple Pie*/}
             <div className="mt-8">
                 <h3 className="font-bold mb-4">Occupancy Visualization</h3>
                 <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden flex">
@@ -1123,7 +1123,7 @@ const ManageMembers = ({ showToast }) => {
     const [members, setMembers] = useState([]);
 
     useEffect(() => {
-        // Manual filter to avoid index requirement on custom DB
+      
         const q = query(collection(db, getCollectionPath('users')));
         const unsub = onSnapshot(q, (snap) => {
             const allUsers = snap.docs.map(d => ({id: d.id, ...d.data()}));
@@ -1218,7 +1218,7 @@ const AgreementRequests = ({ showToast }) => {
     const [requests, setRequests] = useState([]);
 
     useEffect(() => {
-        // Manual filter to avoid index requirement
+        
         const q = query(collection(db, getCollectionPath('agreements')));
         const unsub = onSnapshot(q, (snap) => {
             const all = snap.docs.map(d => ({id: d.id, ...d.data()}));
@@ -1229,7 +1229,8 @@ const AgreementRequests = ({ showToast }) => {
 
     const handleAction = async (req, action) => {
         try {
-            // Update Agreement Status
+           
+          
             await updateDoc(doc(db, getCollectionPath('agreements'), req.id), {
                 status: 'checked'
             });

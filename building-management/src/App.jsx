@@ -32,7 +32,7 @@ import {
 
 // --- Configuration & Constants ---
 
-// Your web app's Firebase configuration
+
 const firebaseConfig = {
   apiKey: "AIzaSyAaJZTkXQNi1GR2M0QY52MTfhfQVcucal0",
   authDomain: "building-management-dbc94.firebaseapp.com",
@@ -44,15 +44,13 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-// Removed unused analytics variable
+
 const auth = getAuth(app);
 const db = getFirestore(app);
-// Use a hardcoded appId or environment variable instead of __app_id
+
 const appId = 'default-app-id';
 
-// Helper for strict paths
-// Note: When using your own Firebase, you might not strictly need 'artifacts/{appId}/...' 
-// but we keep it to ensure the structure remains consistent with your code logic.
+
 const getCollectionPath = (collName, isPrivate = false, uid = '') => {
   if (isPrivate) {
     return `artifacts/${appId}/users/${uid}/${collName}`;
@@ -84,8 +82,8 @@ const ToastContainer = ({ toasts, removeToast }) => (
 // --- Main App Component ---
 export default function App() {
   const [user, setUser] = useState(null);
-  const [userData, setUserData] = useState(null); // Stores role and extra data
-  // Removed unused loading state
+  const [userData, setUserData] = useState(null); 
+  
   const [currentPage, setCurrentPage] = useState('home');
   const [toasts, setToasts] = useState([]);
 
@@ -104,17 +102,12 @@ export default function App() {
 
   // Auth Initialization
   useEffect(() => {
-    // Note: With custom Firebase config, we do NOT use the environment's auto-login tokens
-    // because they don't match your specific project's signature.
-    // The app will start unauthenticated and wait for user to Login/Register.
+
     
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        // Fetch User Role Data from Firestore
-        // We use a public 'users' collection for roles/profiles for simplicity in this demo structure
-        // In a real app, strict rules would apply. 
-        // Here we simulate "users" collection in public/data for shared access by Admin
+        
         const q = query(collection(db, getCollectionPath('users')), where("uid", "==", currentUser.uid));
         
         try {
@@ -123,8 +116,7 @@ export default function App() {
             if (!querySnapshot.empty) {
             setUserData(querySnapshot.docs[0].data());
             } else {
-            // Create initial user doc if not exists
-            // First user is Admin for demo purposes
+           
             const userCountSnapshot = await getDocs(collection(db, getCollectionPath('users')));
             const isFirstUser = userCountSnapshot.empty;
             
@@ -143,7 +135,7 @@ export default function App() {
             }
         } catch (error) {
             console.error("Error fetching user data:", error);
-            // Handle permission errors gracefully
+            
             setUserData(null);
         }
       } else {
